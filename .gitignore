@@ -1,4 +1,7 @@
 .venv/
 models/YOLOX/
+modules/ByteTrack/
 models/*.pth
 input_videos/*.mp4
+output_videos/*.mp4
+/__pycache__/

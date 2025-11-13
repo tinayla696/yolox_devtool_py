@@ -52,12 +52,14 @@ pip install torch torchvision --index-url https://download.pytorch.org/whl/cu118
 # YOLOXのクローンとインストール
 cd ./modules
 git clone https://github.com/Megvii-BaseDetection/YOLOX.git
+git clone https://github.com/ifzhang/ByteTrack.git
 wget https://github.com/Megvii-BaseDetection/YOLOX/releases/download/0.1.1rc0/yolox_m.pth
 cd YOLOX
 pip install -r requirements.txt
 pip insatll cython-bbox
 python setup.py develop
 cd ../../
+cp -r ./models/ByteTrack/yolox/tracker ./src/
 
 # CPUを強制的に指定する場合
 python -m src.track_tool --input input_videos/test.mp4 --output output_videos/ --weights models/yolox_m.pth --device cpu

@@ -1,3 +1,6 @@
 opencv-python
 mkdocs
 mkdocs-material
+scipy
+lapx
+cython-bbox
