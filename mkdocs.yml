@@ -1,0 +1,8 @@
+site_name: 駐車場 PoCツール ドキュメント
+theme:
+  name: material
+  language: ja
+nav:
+  - ホーム: index.md
+  - 環境構築: setup.md
+  - 実行方法: usage.md
