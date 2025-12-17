@@ -4,4 +4,11 @@ modules/ByteTrack/
 models/*.pth
 input_videos/*.mp4
 output_videos/*.mp4
-/__pycache__/
+
+__pycache__/*
+*.pyc
+.DS_Store
+logs/
+results/
+checkpoints/
+temp/
