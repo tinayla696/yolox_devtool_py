@@ -39,6 +39,7 @@ yolox_proctool_py/
 ```bash
 python -m venv .venv
 source .venv/bin/activate
+# Windowsの場合は、 .venv/Scripts/activate
 sudo apt update
 sudo apt install -y build-essential python3-dev
 pip install -r requirements.txt
@@ -50,7 +51,7 @@ pip install torch torchvision --index-url https://download.pytorch.org/whl/cpu
 pip install torch torchvision --index-url https://download.pytorch.org/whl/cu118
 
 # YOLOXのクローンとインストール
-cd ./modules
+cd ./models
 git clone https://github.com/Megvii-BaseDetection/YOLOX.git
 git clone https://github.com/ifzhang/ByteTrack.git
 wget https://github.com/Megvii-BaseDetection/YOLOX/releases/download/0.1.1rc0/yolox_m.pth

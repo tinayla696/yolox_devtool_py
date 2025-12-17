@@ -16,7 +16,7 @@ from src.tracker.byte_tracker import BYTETracker
 def get_argument_parser():
     parser = argparse.ArgumentParser("YOLOX + ByteTrack PoC Tool")
     parser.add_argument("--input", "-i", type=str, required=True, help="Path to input video")
-    parser.add_argument("--output", "-o", type=str, default="output_videos", help="Output directory")
+    parser.add_argument("--output", "-o", type=str, default="outputs", help="Output directory")
     parser.add_argument("--weights", "-w", type=str, default="models/yolox_m.pth", help="Path to model weights")
     parser.add_argument("--confidence", "-c", type=float, default=0.25, help="Detection confidence threshold")
     parser.add_argument("--track_thresh", type=float, default=0.5, help="Tracking threshold")
