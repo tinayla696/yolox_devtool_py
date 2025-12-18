@@ -24,11 +24,7 @@ theme:
 markdown_extensions:
   - admonition
   - pymdownx.details
-  - pymdownx.superfences:
-      custom_fences:
-        - name: mermaid
-          class: mermaid
-          format: !!python/name:mermaid2.fence_mermaid
+  - pymdownx.superfences  # ★変更: シンプルな記述のみにします
   - toc:
       permalink: true
 
