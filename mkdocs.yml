@@ -32,9 +32,9 @@ markdown_extensions:
   - toc:
       permalink: true
 
-# Mermaid.js の設定 (CDNから読み込み)
-extra_javascript:
-  - https://unpkg.com/mermaid/dist/mermaid.min.js
+# # Mermaid.js の設定 (CDNから読み込み)
+# extra_javascript:
+#   - https://unpkg.com/mermaid/dist/mermaid.min.js
 
 # ナビゲーションメニューの設定
 nav:
