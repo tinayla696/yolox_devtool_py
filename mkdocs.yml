@@ -1,8 +1,43 @@
-site_name: 駐車場 PoCツール ドキュメント
+site_name: YOLOX Processing Tool
+site_description: YOLOXを使用した車両・人物向けの画像解析および動画トラッキングツール
+repo_name: 
+repo_url:
+
+# MkDocs Material テーマの設定
 theme:
   name: material
   language: ja
+  highlightjs: true
+  hljs_languages:
+    - python
+    - yaml
+    - bash
+  features:
+    # - navigation.tabs
+    # - navigation.top
+    - search.highlight
+    - search.suggestions
+    - content.code.copy
+    - content.code.select
+
+# Markdown 拡張機能の設定
+markdown_extensions:
+  - admonition
+  - pymdownx.details
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:mermaid2.fence_mermaid
+  - toc:
+      permalink: true
+
+# Mermaid.js の設定 (CDNから読み込み)
+extra_javascript:
+  - https://unpkg.com/mermaid/dist/mermaid.min.js
+
+# ナビゲーションメニューの設定
 nav:
   - ホーム: index.md
-  - 環境構築: setup.md
+  - インストール: installation.md
   - 実行方法: usage.md

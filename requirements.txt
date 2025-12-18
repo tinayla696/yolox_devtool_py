@@ -1,6 +1,31 @@
+#MkDocs dependencies
+mkdocs>=1.5.0
+mkdocs-material>=9.4.0
+mkdocs-mermaid2-plugin>=1.1.1
+
+# Image processing & Core
 opencv-python
-mkdocs
-mkdocs-material
+numpy
+pandas
+
+# PyTorch (CUP/GPUに合わせて別途インストール推奨ですが、依存関係として記載）
+torch
+torchvision
+
+# Tracking & Math (Base Project  dependencies)
 scipy
 lapx
 cython-bbox
+
+# Docs
+mkdocs
+mkdocs-material
+
+# YOLOX dependencies (Commonly required)
+loguru
+tqdm
+thop
+ninja
+tabulate
+psutil
+tensorboard
