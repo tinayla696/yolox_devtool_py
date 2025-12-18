@@ -1,7 +1,7 @@
 site_name: YOLOX Processing Tool
 site_description: YOLOXを使用した車両・人物向けの画像解析および動画トラッキングツール
-repo_name: 
-repo_url:
+repo_name: yolox_devtool_py
+repo_url: https://github.com/tinayla696/yolox_devtool_py
 
 # MkDocs Material テーマの設定
 theme:
