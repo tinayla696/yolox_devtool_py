@@ -1,6 +1,6 @@
 .venv/
-models/YOLOX/
-models/ByteTrack/
+*/YOLOX/
+*/ByteTrack/
 models/*.pth
 
 
@@ -21,6 +21,7 @@ outputs/*.jpg
 outputs/*.jpeg
 outputs/*.bmp
 outputs/*.tif
+outputs/*.csv
 
 __pycache__/
 *.pyc

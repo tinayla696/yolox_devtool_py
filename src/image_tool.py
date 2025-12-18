@@ -16,6 +16,25 @@ from yolox.utils import postprocess
 TARGET_CLASSES = [ 0, 2 ]
 CLASS_NAMES = { 0: "person", 2: "vehicle" }
 
+# ファイルパスからモデル名（yolox_s, yolox_m 等）を推定する関数
+def get_exp_name_from_path(weights_path: str) -> str:
+    """
+    重みファイルのパスからモデル名（yolox_s, m, l, x）を判定する
+    判定できない場合はデフォルトとして 'yolox_m' を返す
+    """
+    filename = os.path.basename(weights_path).lower()
+    
+    # チェックするモデルタイプのリスト（優先度順）
+    known_models = ["yolox_s", "yolox_m", "yolox_l", "yolox_x", "yolox_tiny", "yolox_nano"]
+    
+    for model_name in known_models:
+        if model_name in filename:
+            print(f"Auto-detected model type: {model_name}")
+            return model_name
+            
+    print("Warning: Could not infer model type from filename. Defaulting to 'yolox_m'.")
+    return "yolox_m"
+
 # 引数パーサーの設定
 def get_argumentparser() -> argparse.ArgumentParser:
     """
@@ -86,7 +105,8 @@ def main(args):
     print(f"Using device: {device}")
 
     # 3. モデルロード
-    exp = get_exp(None, "yolox_m")
+    exp_name = get_exp_name_from_path(args.weights)
+    exp = get_exp(None, exp_name)
     model = exp.get_model()
     model.to(device)
     model.eval()

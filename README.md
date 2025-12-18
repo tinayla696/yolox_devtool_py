@@ -1,81 +1,115 @@
-# 🚗 駐車場 動向計測 PoC ツール
+# 🚗 YOLOX Processing Tool
 
-## 概要
-
-本プロジェクトは、YOLOX + ByteTrack を利用した駐車場内の車両・人物の動向計測システムの実現可能性を検証（PoC）するためのツールです。
-
-主な目的は、カメラの設置画角や環境（昼夜・天候）による検出・追跡精度を、録画映像を使って事前に評価することです。
+YOLOXを使用した車両・人物向けの画像解析および動画トラッキングツールです。  
+画像内の物体検出と、ByteTrackアルゴリズムを用いた動画内の追跡（ID付与）を行います。
 
 ## 主な機能
 
-* 入力動画ファイルに対する物体検出（YOLOX）と追跡（ByteTrack）の実行
-* 追跡結果（ID、バウンディングボックス）を描画した動画ファイルの出力
-* CPU / GPU の実行環境をコマンドライン引数で切り替え可能
+- **画像解析 (`src.image_tool`)**:
+    - 指定ディレクトリ内の画像を解析。
+    - バウンディングボックスの描画と、CSVレポートの出力。
+    - モデルサイズ（S, M, L, Xなど）を重みファイル名から自動判定。
+- **動画トラッキング (`src.track_tool`)**:
+    - **ByteTrack** を統合し、高精度な追跡を実現。
+    - 動画ファイル単体、またはディレクトリ内の一括処理に対応。
+    - 検出結果（ID、クラス、スコア）を動画にオーバーレイ保存。
 
 ## ディレクトリ構成
 
 ```tree
-yolox_proctool_py/
-├── .gitignore
-├── README.md            # (このファイル)
-├── mkdocs.yml           # MkDocs 設定
-├── requirements.txt     # PoCツールの依存ライブラリ
-├── docs/                # ドキュメント
-├── input_videos/        # 入力動画
-├── output_videos/       # 出力動画
-├── models/              # YOLOX 重みファイル (.pth)
-│   ├── yolox_m.pth
-│   └── .gitkeep
-└── src/                 # ソースコード
-    └── track_tool.py    # メインスクリプト
+.
+├── inputs/               # 解析対象の画像・動画を配置
+├── outputs/              # 解析結果の保存先
+├── models/               # 学習済み重みファイル (.pth) を配置
+├── modules/              # 共通モジュール
+│   ├── ByteTrack/        # ByteTrack関連モジュール ※ git clone で取得
+│   └── YOLOX/            # YOLOX関連モジュール ※ git clone で取得
+├── src/
+│   ├── image_tool.py     # 画像解析用スクリプト
+│   ├── track_tool.py     # 動画トラッキング用スクリプト
+│   └── tracker/          # ByteTrack実装モジュール
+├── requirements.txt      # 依存ライブラリ
+└── README.md             # 本ファイル
 ```
 
-## クイックスタート (実行例)
+## インストール
 
-1. 仮想環境を有効化し、必要なライブラリをインストールします。（詳細は`docs/setup.md`を参照）
-2. モデルを`models/`に、動画を`input_videos/`に配置します。
-3. 以下のコマンドで推論を実行します。
+詳細な手順は `docs/installation.md` を参照してください。
+
+
+### クイックスタート:
 
 ```bash
-python -m venv .venv
+# 1. 仮想環境の作成と有効化
+python3 -m venv .venv
 source .venv/bin/activate
-# Windowsの場合は、 .venv/Scripts/activate
-sudo apt update
-sudo apt install -y build-essential python3-dev
+# Windowsの場合: .venv\Scripts\activate を実行
+
+# 2. PyTorchのインストール（環境に合わせて変更してください）
+pip install torch torchvision
+
+# 3. YOLOXのインストール（ビルド隔離を無効化します）
+pip install --no-build-isolation -e .
+
+# 4. その他依存ライブラリのインストール
 pip install -r requirements.txt
-
-# CPU版 PyTorch のインストール
-pip install torch torchvision --index-url https://download.pytorch.org/whl/cpu
-# OR
-# GPU版 PyTorch のインストール例 (CUDA 11.8)
-pip install torch torchvision --index-url https://download.pytorch.org/whl/cu118
-
-# YOLOXのクローンとインストール
-cd ./models
-git clone https://github.com/Megvii-BaseDetection/YOLOX.git
-git clone https://github.com/ifzhang/ByteTrack.git
-wget https://github.com/Megvii-BaseDetection/YOLOX/releases/download/0.1.1rc0/yolox_m.pth
-cd YOLOX
-pip install -r requirements.txt
-pip insatll cython-bbox
-python setup.py develop
-cd ../../
-cp -r ./models/ByteTrack/yolox/tracker ./src/
-
-# CPUを強制的に指定する場合
-python -m src.track_tool --input input_videos/test.mp4 --output output_videos/ --weights models/yolox_m.pth --device cpu
-# OR
-# GPUを指定して実行
-python -m src.track_tool --input input_videos/test.mp4 --output output_videos/ --weights models/yolox_m.pth --device cuda
 ```
 
-## 5. ドキュメント
+## 使い方
 
-詳細な環境構築手順やツールの使用方法は、MkDocsのドキュメントを参照してください  
-以下のコマンドでローカルサーバーを起動できます
+### 1. 準備（重みファイルのダウンロード）
+
+YOLOXの公式リリースから学習済みモデルをダウンロードし、`modules/`ディレクトリに配置してください
 
 ```bash
-mkdocs serve
+# 例: YOLOX-M と YOLOX-S をダウンロード
+wget [https://github.com/Megvii-BaseDetection/YOLOX/releases/download/0.1.1rc0/yolox_m.pth](https://github.com/Megvii-BaseDetection/YOLOX/releases/download/0.1.1rc0/yolox_m.pth) -P models/
+wget [https://github.com/Megvii-BaseDetection/YOLOX/releases/download/0.1.1rc0/yolox_s.pth](https://github.com/Megvii-BaseDetection/YOLOX/releases/download/0.1.1rc0/yolox_s.pth) -P models/
 ```
 
-ブラウザで `http://localhost:8000` にアクセスしてください
+### 2. 画像解析（Image Tool）
+
+`inputs/` ディレクトリ内の画像を一括解析し、`outputs/`ディレクトリに結果画像とCSVレポートを出力します。
+
+```bash
+# 基本的な実行（YOLO-M 使用）
+python3 -m src.image_tool -i inputs -o outputs -w models/yolox_m.pth
+
+# YOLO-S を使用する場合（重みファイルを変更する）
+python3 -m src.image_tool -i inputs -o outputs -w models/yolox_s.pth
+```
+
+### 3. 動画トラッキング（Track Tool）
+
+動画内の Person(0) と Car(2) を追跡し、IDを付与した動画を出力します。
+
+#### 単一ファイルの処理：
+
+```bash
+python3 -m src.track_tool -i inputs/sample_movie.mp4 -w models/yolox_m.pth
+```
+
+#### ディレクトリ一括処理：
+
+`inputs/`ディレクトリ内のすべての動画ファイルを順次処理します。
+
+```bash
+python3 -m src.track_tool -i inputs/ -w models/yolox_m.pth
+```
+
+## オブション引数
+
+| 引数 | 説明 | デフォルト値 |
+|------|------|--------------|
+| `-i`, `--input` | 入力画像・動画のディレクトリまたはファイルパス | `inputs` |
+| `-o`, `--output` | 出力ディレクトリのパス | `outputs` |
+| `-w`, `--weights` | 学習済みモデルの重みファイルパス | `models/yolox_m.pth` |
+| `-c`, `--confidence` | 検出信頼度の閾値 | `0.25` (動画は `0.1`) |
+| `--device` | 使用デバイス（'auto', 'cpu', 'cuda'） | `auto` |
+
+## license / Credits
+
+- **YOLOX**: [Megvii-BaseDetection/YOLOX](https://github.com/Megvii-BaseDetection/YOLOX)  
+- **ByteTrack**: [ifzhang/ByteTrack](https://github.com/ifzhang/ByteTrack)
+
+---
