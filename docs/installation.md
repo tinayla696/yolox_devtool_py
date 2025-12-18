@@ -35,7 +35,14 @@ YOLOXのインストールスクリプトは、コンパイル時にPyTorchが�
     pip install torch torchvision --index-url https://download.pytorch.org/whl/cpu
     ```
 
-### 3. YOLOX依存関係の修正
+### 3. YOLOXクローンと依存関係の修正
+
+```bash
+# YOLOXのリポジトリをクローン
+cd ./modules
+git clone https://github.com/Megvii-BaseDetection/YOLOX.git
+cd YOLOX/
+```
 
 `onnx-simplifier`のパッケージ名の不一致エラーを防ぐため、`requirements.txt`を修正します。
 
@@ -43,20 +50,46 @@ YOLOXのインストールスクリプトは、コンパイル時にPyTorchが�
 2. 以下の行を書き換えて保存してください。
         ```diff
         -onnx-simplifier==0.3.6
-        +onnx-simplifier==0.3.7
+        +onnxsim
         ```
 
-### 4.  YOLOXほんたいのインストール
+### 4.  YOLOX本体のインストール
 
 `pip` のビルド買うk理機能を無効化（`--no-build-isolation` オプション）して、YOLOXをインストールします。  
 これにより、手順２でインストールした PyTorchが正しく認識されます。
 
 ```bash
-# プロジェクトルートで実行
+# YOLOXのプロジェクトルートで実行
 pip install --no-build-isolation -e .
 ```
 
-### 5. その他依存ライブラリ
+### 5. ByteTrackクローンとソースコードの配置
+
+1. ByteTrackのリポジトリをクローンします。
+
+    ```bash
+    cd ./modules
+    git clone https://github.com/ifzhang/ByteTrack.git
+    ```
+
+2. ByteTrackの`tracker`ディレクトリを本プロジェクトの`src/`ディレクトリにコピーします。
+
+    ```bash
+    cp -r ./ByteTrack/byte_tracker ./../../src/tracker
+    ```
+
+### 6. 重みファイルのインストール
+
+YOLOXの公式リリースから学習済みモデルをダウンロードし、`models/`ディレクトリに配置してください。
+
+```bash
+wget https://github.com/Megvii-BaseDetection/YOLOX/releases/download/0.1.1rc0/yolox_s.pth -P models/
+wget https://github.com/Megvii-BaseDetection/YOLOX/releases/download/0.1.1rc0/yolox_m.pth -P models/
+wget https://github.com/Megvii-BaseDetection/YOLOX/releases/download/0.1.1rc0/yolox_l.pth -P models/
+wget https://github.com/Megvii-BaseDetection/YOLOX/releases/download/0.1.1rc0/yolox_x.pth -P models/
+```
+
+### 7. その他依存ライブラリ
 
 トラッキング機能（ByteTrack）やドキュメント生成に必要なライブラリをインストールします。
 

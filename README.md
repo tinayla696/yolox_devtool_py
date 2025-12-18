@@ -49,7 +49,13 @@ source .venv/bin/activate
 pip install torch torchvision
 
 # 3. YOLOXのインストール（ビルド隔離を無効化します）
+cd ./modules
+git clone https://github.com/Megvii-BaseDetection/YOLOX.git
+cd YOLOX/
 pip install --no-build-isolation -e .
+
+
+git clone https://github.com/ifzhang/ByteTrack.git
 
 # 4. その他依存ライブラリのインストール
 pip install -r requirements.txt
@@ -63,8 +69,8 @@ YOLOXの公式リリースから学習済みモデルをダウンロードし、
 
 ```bash
 # 例: YOLOX-M と YOLOX-S をダウンロード
-wget [https://github.com/Megvii-BaseDetection/YOLOX/releases/download/0.1.1rc0/yolox_m.pth](https://github.com/Megvii-BaseDetection/YOLOX/releases/download/0.1.1rc0/yolox_m.pth) -P models/
-wget [https://github.com/Megvii-BaseDetection/YOLOX/releases/download/0.1.1rc0/yolox_s.pth](https://github.com/Megvii-BaseDetection/YOLOX/releases/download/0.1.1rc0/yolox_s.pth) -P models/
+wget https://github.com/Megvii-BaseDetection/YOLOX/releases/download/0.1.1rc0/yolox_m.pth -P models/
+wget https://github.com/Megvii-BaseDetection/YOLOX/releases/download/0.1.1rc0/yolox_s.pth -P models/
 ```
 
 ### 2. 画像解析（Image Tool）
