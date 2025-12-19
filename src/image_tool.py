@@ -13,8 +13,8 @@ from yolox.exp import get_exp
 from yolox.utils import postprocess
 
 # 判別対象クラス（COCOデータセット準拠：　0: person, 2: vehicle)
-TARGET_CLASSES = [ 0, 2 ]
-CLASS_NAMES = { 0: "person", 2: "vehicle" }
+TARGET_CLASSES = [ 0, 2, 3, 5, 7 ]
+CLASS_NAMES = { 0: "person", 2: "car", 3: "motorcycle", 5: "bus", 7: "truck" }
 
 # ファイルパスからモデル名（yolox_s, yolox_m 等）を推定する関数
 def get_exp_name_from_path(weights_path: str) -> str:

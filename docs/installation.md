@@ -55,7 +55,7 @@ cd YOLOX/
 
 ### 4.  YOLOX本体のインストール
 
-`pip` のビルド買うk理機能を無効化（`--no-build-isolation` オプション）して、YOLOXをインストールします。  
+`pip` のビルド隔離機能を無効化（`--no-build-isolation` オプション）して、YOLOXをインストールします。  
 これにより、手順２でインストールした PyTorchが正しく認識されます。
 
 ```bash

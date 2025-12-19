@@ -14,7 +14,7 @@ from yolox.utils import postprocess
 from src.tracker.byte_tracker import BYTETracker
 
 # 判別対象クラス（COCO準拠: 0: person, 2: car）
-TARGET_CLASSES = [0, 2]
+TARGET_CLASSES = [ 0, 2, 3, 5, 7 ]
 
 def get_argument_parser():
     parser = argparse.ArgumentParser("YOLOX + ByteTrack Tool")
